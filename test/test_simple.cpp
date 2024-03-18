@@ -41,7 +41,7 @@
 #include "message_filters/simple_filter.h"
 
 using namespace message_filters;
-using namespace std::placeholders;
+// using namespace std::placeholders;
 
 struct Msg
 {
@@ -114,14 +114,14 @@ TEST(SimpleFilter, callbackTypes)
 {
   Helper h;
   Filter f;
-  f.registerCallback(std::bind(&Helper::cb0, &h, _1));
-  f.registerCallback<const Msg&>(std::bind(&Helper::cb1, &h, _1));
-  f.registerCallback<MsgConstPtr>(std::bind(&Helper::cb2, &h, _1));
-  f.registerCallback<const MessageEvent<Msg const>&>(std::bind(&Helper::cb3, &h, _1));
-  f.registerCallback<Msg>(std::bind(&Helper::cb4, &h, _1));
-  f.registerCallback<const MsgPtr&>(std::bind(&Helper::cb5, &h, _1));
-  f.registerCallback<MsgPtr>(std::bind(&Helper::cb6, &h, _1));
-  f.registerCallback<const MessageEvent<Msg>&>(std::bind(&Helper::cb7, &h, _1));
+  f.registerCallback(std::bind(&Helper::cb0, &h, std::placeholders::_1));
+  f.registerCallback<const Msg&>(std::bind(&Helper::cb1, &h, std::placeholders::_1));
+  f.registerCallback<MsgConstPtr>(std::bind(&Helper::cb2, &h,std::placeholders:: _1));
+  f.registerCallback<const MessageEvent<Msg const>&>(std::bind(&Helper::cb3, &h, std::placeholders::_1));
+  f.registerCallback<Msg>(std::bind(&Helper::cb4, &h, std::placeholders::_1));
+  f.registerCallback<const MsgPtr&>(std::bind(&Helper::cb5, &h, std::placeholders::_1));
+  f.registerCallback<MsgPtr>(std::bind(&Helper::cb6, &h, std::placeholders::_1));
+  f.registerCallback<const MessageEvent<Msg>&>(std::bind(&Helper::cb7, &h, std::placeholders::_1));
 
   f.add(Filter::EventType(std::make_shared<Msg>()));
   EXPECT_EQ(h.counts_[0], 1);
@@ -146,7 +146,7 @@ TEST(SimpleFilter, oldRegisterWithNewFilter)
 {
   OldFilter f;
   Helper h;
-  f.registerCallback(std::bind(&Helper::cb3, &h, _1));
+  f.registerCallback(std::bind(&Helper::cb3, &h, std::placeholders::_1));
 }
 
 int main(int argc, char **argv){

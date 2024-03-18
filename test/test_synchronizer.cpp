@@ -39,7 +39,7 @@
 #include <array>
 
 using namespace message_filters;
-using namespace std::placeholders;
+// using namespace std::placeholders;
 
 struct Header
 {

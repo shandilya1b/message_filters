@@ -45,7 +45,7 @@
 #include "message_filters/chain.h"
 #include "sensor_msgs/msg/imu.hpp"
 
-using namespace std::placeholders;
+// using namespace std::placeholders;
 using namespace message_filters;
 typedef sensor_msgs::msg::Imu Msg;
 typedef std::shared_ptr<sensor_msgs::msg::Imu const> MsgConstPtr;
@@ -84,7 +84,7 @@ TEST(TimeSequencer, fuzz_sequencer)
   rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("test_node");
   TimeSequencer<Msg> seq(rclcpp::Duration(0, 10000000), rclcpp::Duration(0, 1000000), 10, node);
   Helper h;
-  seq.registerCallback(std::bind(&Helper::cb, &h, _1));
+  seq.registerCallback(std::bind(&Helper::cb, &h, std::placeholders::_1));
   rclcpp::Clock ros_clock;
   auto start = ros_clock.now();
   auto msg = std::make_shared<Msg>();
@@ -107,7 +107,7 @@ TEST(TimeSynchronizer, fuzz_synchronizer)
 {
   TimeSynchronizer<Msg, Msg> sync(1);
   Helper h;
-  sync.registerCallback(std::bind(&Helper::cb2, &h, _1, _2));
+  sync.registerCallback(std::bind(&Helper::cb2, &h, std::placeholders::_1, std::placeholders::_2));
 
   rclcpp::Clock ros_clock;
   auto start = ros_clock.now();
@@ -133,7 +133,7 @@ TEST(Subscriber, fuzz_subscriber)
   auto node = std::make_shared<rclcpp::Node>("test_node");
   Helper h;
   Subscriber<Msg> sub(node, "test_topic");
-  sub.registerCallback(std::bind(&Helper::cb, &h, _1));
+  sub.registerCallback(std::bind(&Helper::cb, &h, std::placeholders::_1));
   auto pub = node->create_publisher<Msg>("test_topic", 10);
   rclcpp::Clock ros_clock;
   auto start = ros_clock.now();

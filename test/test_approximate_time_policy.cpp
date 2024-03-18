@@ -40,7 +40,7 @@
 #include "message_filters/message_traits.h"
 #include <vector>
 
-using namespace std::placeholders;
+// using namespace std::placeholders;
 using namespace message_filters;
 using namespace message_filters::sync_policies;
 
@@ -99,7 +99,7 @@ public:
 				  uint32_t queue_size) :
     input_(input), output_(output), output_position_(0), sync_(queue_size)
   {
-    sync_.registerCallback(std::bind(&ApproximateTimeSynchronizerTest::callback, this, _1, _2));
+    sync_.registerCallback(std::bind(&ApproximateTimeSynchronizerTest::callback, this, std::placeholders::_1, std::placeholders::_2));
   }
 
   void callback(const MsgConstPtr& p, const MsgConstPtr& q)
@@ -157,7 +157,7 @@ public:
 				      uint32_t queue_size) :
     input_(input), output_(output), output_position_(0), sync_(queue_size)
   {
-    sync_.registerCallback(std::bind(&ApproximateTimeSynchronizerTestQuad::callback, this, _1, _2, _3, _4));
+    sync_.registerCallback(std::bind(&ApproximateTimeSynchronizerTestQuad::callback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
   }
 
     void callback(const MsgConstPtr& p, const MsgConstPtr& q, const MsgConstPtr& r, const MsgConstPtr& s)

@@ -147,6 +147,16 @@ public:
   {
     subscribe(node, topic, qos);
   }
+  
+  Subscriber(rclcpp::Node* node, const std::string& topic, const rmw_qos_profile_t qos, rclcpp::SubscriptionOptions options)
+  {
+    subscribe(node, topic, qos, options);
+  }
+  
+  Subscriber(rclcpp::Node::SharedPtr node, const std::string& topic, const rmw_qos_profile_t qos, rclcpp::SubscriptionOptions options)
+  {
+    subscribe(node, topic, qos, options);
+  }
 
   /**
    * \brief Empty constructor, use subscribe() to subscribe to a topic
